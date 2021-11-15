@@ -1,0 +1,93 @@
+Microsoft Windows [Version 10.0.22000.318]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\HARSHA>mongo
+MongoDB shell version v4.4.6
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("08b84745-6055-45b8-9c01-9322d4574750") }
+MongoDB server version: 4.4.6
+---
+The server generated these startup warnings when booting:
+        2021-11-13T13:34:17.796+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> show dbs
+admin   0.000GB
+comm    0.000GB
+config  0.000GB
+local   0.000GB
+> show collections
+> use har
+switched to db har
+> show dbs
+admin   0.000GB
+comm    0.000GB
+config  0.000GB
+local   0.000GB
+> db.students.insertOne({name:"harsha", favcolr:"blue"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6191d14a5288bf4ef38c57f0")
+}
+> show dbs
+admin   0.000GB
+comm    0.000GB
+config  0.000GB
+har     0.000GB
+local   0.000GB
+> use har
+switched to db har
+> show collections
+students
+> db.students.find()
+{ "_id" : ObjectId("6191d14a5288bf4ef38c57f0"), "name" : "harsha", "favcolr" : "blue" }
+> db.personal.insertOne({gender:"male",interest:"WWE"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("6191d3245288bf4ef38c57f1")
+}
+> db.personal.find()
+{ "_id" : ObjectId("6191d3245288bf4ef38c57f1"), "gender" : "male", "interest" : "WWE" }
+> db.personal.insertMany({name:"Har"},{name:"Harsha"},{name:"Harsha Raj"})
+uncaught exception: TypeError: documents.map is not a function :
+DBCollection.prototype.insertMany@src/mongo/shell/crud_api.js:307:17
+@(shell):1:1
+> db.personal.insertMany([{name:"Har"},{name:"Harsha"},{name:"Harsha Raj"}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6191d3955288bf4ef38c57f2"),
+                ObjectId("6191d3955288bf4ef38c57f3"),
+                ObjectId("6191d3955288bf4ef38c57f4")
+        ]
+}
+> db.personal.find()
+{ "_id" : ObjectId("6191d3245288bf4ef38c57f1"), "gender" : "male", "interest" : "WWE" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f2"), "name" : "Har" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f3"), "name" : "Harsha" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f4"), "name" : "Harsha Raj" }
+> db.personal.updateOne({name:"har"},{$set:{name:"R Harsha Raj",gender:"male",interest:"programming"}})
+{ "acknowledged" : true, "matchedCount" : 0, "modifiedCount" : 0 }
+> db.personal.find()
+{ "_id" : ObjectId("6191d3245288bf4ef38c57f1"), "gender" : "male", "interest" : "WWE" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f2"), "name" : "Har" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f3"), "name" : "Harsha" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f4"), "name" : "Harsha Raj" }
+> db.personal.updateOne({name:"Har"},{$set:{name:"R Harsha Raj",gender:"male",interest:"programming"}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.personal.find()
+{ "_id" : ObjectId("6191d3245288bf4ef38c57f1"), "gender" : "male", "interest" : "WWE" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f2"), "name" : "R Harsha Raj", "gender" : "male", "interest" : "programming" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f3"), "name" : "Harsha" }
+{ "_id" : ObjectId("6191d3955288bf4ef38c57f4"), "name" : "Harsha Raj" }
+>
